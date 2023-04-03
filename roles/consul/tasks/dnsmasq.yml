@@ -89,6 +89,7 @@
           lineinfile:
             path: /etc/resolv.conf
             regexp: "^nameserver 127.0.0.1"
+            insertafter: '^search'
             line: "nameserver 127.0.0.1"
             unsafe_writes: true  # to prevent failures in CI
       become: true

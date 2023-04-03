@@ -19,7 +19,8 @@
       lineinfile:
         path: /etc/resolv.conf
         regexp: "^nameserver {{ item }}"
-        insertbefore: '^options'
+        insertafter: '^search'
+#        insertbefore: '^options'
         line: "nameserver {{ item }}"
         unsafe_writes: true  # to prevent failures in CI
       loop: "{{ nameservers }}"
