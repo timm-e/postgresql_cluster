@@ -17,6 +17,8 @@ patroni_superuser_username: "postgres"
 patroni_superuser_password:  "{{ lookup('hashi_vault', 'secret=ansible/data/pgbouncer token={{ vault_token }} url=https://vault.inqi.essigke.net/')['db_password'] }}" 
 boundary_superuser_username: "boundary"
 boundary_superuser_password:  "{{ lookup('hashi_vault', 'secret=ansible/data/boundary token={{ vault_token }} url=https://vault.inqi.essigke.net/')['db_password'] }}"
+grafana_superuser_username: "grafana"
+grafana_superuser_password:  "{{ lookup('hashi_vault', 'secret=ansible/data/grafana token={{ vault_token }} url=https://vault.inqi.essigke.net/')['db_password'] }}"
 patroni_replication_username: "replicator"
 patroni_replication_password: "{{ lookup('hashi_vault', 'secret=ansible/data/patroni token={{ vault_token }} url=https://vault.inqi.essigke.net/')['db_replication_password'] }}" 
 
@@ -154,6 +156,7 @@ postgresql_users:
 #  - { name: "", password: "", flags: "NOSUPERUSER" }
 #  - { name: "", password: "", flags: "NOLOGIN" }
 - { name: "{{ boundary_superuser_username }}", password: "{{ boundary_superuser_password }}", flags: "SUPERUSER" }
+- { name: "{{ grafana_superuser_username }}", password: "{{ grafana_superuser_password }}", flags: "SUPERUSER" }
 
 # (optional) list of databases to be created (if not already exists)
 postgresql_databases:
@@ -162,6 +165,7 @@ postgresql_databases:
 #  - { db: "", encoding: "UTF8", lc_collate: "en_US.UTF-8", lc_ctype: "en_US.UTF-8", owner: "" }
 #  - { db: "", encoding: "UTF8", lc_collate: "en_US.UTF-8", lc_ctype: "en_US.UTF-8", owner: "" }
 - { db: "boundary", encoding: "UTF8", lc_collate: "en_US.UTF-8", lc_ctype: "en_US.UTF-8", owner: "boundary" }
+- { db: "grafana", encoding: "UTF8", lc_collate: "en_US.UTF-8", lc_ctype: "en_US.UTF-8", owner: "grafana" }
 
 # (optional) list of schemas to be created (if not already exists)
 postgresql_schemas: []
@@ -302,6 +306,7 @@ pgbouncer_ignore_startup_parameters: "extra_float_digits,geqo,search_path"
 pgbouncer_pools:
   - { name: "postgres", dbname: "postgres", pool_parameters: "" }
   - { name: "boundary", dbname: "boundary", pool_parameters: "" }
+  - { name: "grafana", dbname: "grafana", pool_parameters: "" }
 #  - { name: "mydatabase", dbname: "mydatabase", pool_parameters: "pool_size=20 pool_mode=transaction" }
 #  - { name: "", dbname: "", pool_parameters: "" }
 #  - { name: "", dbname: "", pool_parameters: "" }
